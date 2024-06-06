@@ -1,10 +1,9 @@
 import express from "express";
 import "dotenv/config";
+import authRoutes from "./routes/auth";
 
 const app = express();
 
-app.get("/", (req, res) => {
-  return res.status(200).json({ message: "Hello World!" });
-});
+app.use(authRoutes);
 
 app.listen(process.env.PORT);

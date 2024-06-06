@@ -1,13 +1,10 @@
 import express from "express";
+import authController from "../controllers/auth";
 
-const app = express();
+const authRoute = express();
 
-app.post("/auth/login", {
-  /* TODO */
-});
-app.post("/auth/register", {
-  /* TODO */
-});
-app.post("/auth/reset", {
-  /* TODO */
-});
+authRoute.post("/auth/login", authController.login);
+authRoute.post("/auth/register", authController.register);
+authRoute.post("/auth/reset", authController.reset);
+
+export default authRoute;
