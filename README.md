@@ -1,9 +1,11 @@
 # ENDPOINT
+base url: `https://assignment-microservice.haikalgakbar.my.id/`
+
 | **Name** | **Method** | **Endpoint** |
 | ------------- | ------------- | ------------- |
-| [Register](#register) | `POST` | `/auth/register` |
-| [Login](#login) | `POST` | `/auth/login` |
-| [Reset password](#logout) | `POST` | `/auth/reset` |
+| [Register](#register) | `POST` | `{{BASE_URL}}/auth/register` |
+| [Login](#login) | `POST` | `{{BASE_URL}}/auth/login` |
+| [Reset password](#logout) | `POST` | `{{BASE_URL}}/auth/reset` |
 
 ## Register
 <details open>
