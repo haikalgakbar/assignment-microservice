@@ -61,7 +61,35 @@ const authController = {
       return res.status(500).json({ error: err.message });
     }
   },
-  reset: (req: Request, res: Response) => {},
+  reset: async (req: Request, res: Response) => {
+    try {
+      const { email, new_password } = req.body as {
+        email: string;
+        new_password: string;
+      };
+
+      const user = await fakeFetchRequest();
+
+      if (!user) {
+        return res.status(404).json({ error: "Invalid credentials" });
+      }
+
+      if (email !== user.data.email) {
+        return res.status(404).json({ error: "Invalid credentials" });
+      }
+
+      const newUserData = {
+        ...user.data,
+        password: new_password,
+      };
+
+      return res
+        .status(201)
+        .json({ message: "Password changed", data: newUserData });
+    } catch (err: any) {
+      return res.status(500).json({ error: err.message });
+    }
+  },
 };
 
 function fakeFetchRequest(): Promise<IFecthUser> {
