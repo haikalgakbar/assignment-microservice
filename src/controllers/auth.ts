@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
-import { IUser, IFecthUser, user } from "../db/user";
+import jwt from "jsonwebtoken";
+import { IFecthUser, user } from "../db/user";
 
 const authController = {
   login: async (req: Request, res: Response) => {
@@ -16,7 +17,20 @@ const authController = {
         return res.status(404).json({ error: "Invalid credentials" });
       }
 
-      return res.status(201).json({ message: "Login successful" });
+      const payload = jwt.sign(
+        {
+          _id: user.data._id,
+          username: user.data.username,
+          email: user.data.email,
+          first_name: user.data.first_name,
+          last_name: user.data.last_name,
+        },
+        process.env.JWT_SECRET as string
+      );
+
+      return res
+        .status(201)
+        .json({ message: "Login success.", token: payload });
     } catch (err: any) {
       return res.status(500).json({ error: err.message, data: err.stack });
     }

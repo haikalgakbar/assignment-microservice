@@ -15,7 +15,7 @@ export interface IFecthUser {
   data: IUser;
 }
 
-export const user = {
+export const user: IUser = {
   _id: 1,
   username: "user1",
   password: "123",
