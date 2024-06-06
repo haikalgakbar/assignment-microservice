@@ -1,5 +1,7 @@
 # ENDPOINT
-base url: `https://assignment-microservice.haikalgakbar.my.id/`
+> 📝Note: ketika menjalankan docker container pastikan menggunakan `-p[port:port]` atau edit Dockerfile dan tambahan `expose`
+
+**BASE_URL:** `https://assignment-microservice.haikalgakbar.my.id/`
 
 | **Name** | **Method** | **Endpoint** |
 | ------------- | ------------- | ------------- |
