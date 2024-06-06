@@ -1,3 +1,20 @@
+export interface IUser {
+  _id: number;
+  username: string;
+  password: string;
+  email: string;
+  created_at: Date;
+  updated_at: Date;
+  first_name: string;
+  last_name: string;
+  bio: string;
+  payment_details: string;
+}
+
+export interface IFecthUser {
+  data: IUser;
+}
+
 export const user = {
   _id: 1,
   username: "user1",
