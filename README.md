@@ -1,5 +1,5 @@
 # ENDPOINT
-> 📝Note: ketika menjalankan docker container pastikan menggunakan `-p[port:port]` atau edit Dockerfile dan tambahan `expose`
+> 📝Note: ketika menjalankan docker container pastikan menggunakan `-p[port:port]` atau edit Dockerfile dan tambah `expose`
 
 **BASE_URL:** `https://assignment-microservice.haikalgakbar.my.id/`
 
