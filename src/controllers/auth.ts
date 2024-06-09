@@ -1,44 +1,67 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { IFecthUser, user } from "../db/user";
+import { IUser } from "../interfaces/user";
 
 const authController = {
   login: async (req: Request, res: Response) => {
     try {
-      const { email, password } = req.body;
+      const { email, password } = req.body as {
+        email: string;
+        password: string;
+      };
 
       if (!email || !password) {
         return res.status(400).json({ error: "Missing required fields" });
       }
 
-      const user = await fakeFetchRequest();
+      const getUser = await fetch("http://103.74.5.20:8002/api/userEmail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
 
-      if (email !== user.data.email || password !== user.data.password) {
+      if (getUser.status !== 200) {
+        return res.status(500).json({ error: "Error from server" });
+      }
+
+      const user = (await getUser.json()) as IUser;
+      console.log(user);
+
+      if (email !== user.email || password !== user.password) {
         return res.status(404).json({ error: "Invalid credentials" });
       }
 
-      const payload = jwt.sign(
-        {
-          _id: user.data._id,
-          username: user.data.username,
-          email: user.data.email,
-          first_name: user.data.first_name,
-          last_name: user.data.last_name,
-        },
-        process.env.JWT_SECRET as string
-      );
+      const payload = {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        first_name: user.first_name,
+        last_name: user.last_name,
+      };
+
+      const token = jwt.sign(payload, process.env.JWT_SECRET as string);
 
       return res
         .status(201)
-        .json({ message: "Login success.", token: payload });
+        .json({ message: "Login success.", token: token, data: payload });
     } catch (err: any) {
-      return res.status(500).json({ error: err.message, data: err.stack });
+      return res.status(500).json({ error: err.message });
     }
   },
   register: async (req: Request, res: Response) => {
     try {
       const { email, username, password, first_name, last_name, bio } =
-        req.body;
+        req.body as {
+          email: string;
+          username: string;
+          password: string;
+          first_name: string;
+          last_name: string;
+          bio: string;
+        };
 
       if (!email || !username || !password) {
         return res.status(400).json({ error: "Missing required fields" });
@@ -72,29 +95,51 @@ const authController = {
   },
   reset: async (req: Request, res: Response) => {
     try {
-      const { email, new_password } = req.body as {
+      const { email, old_password, new_password } = req.body as {
         email: string;
+        old_password: string;
         new_password: string;
       };
 
-      const user = await fakeFetchRequest();
+      const data = await fetch("http://103.74.5.20:8002/api/userEmail", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
 
-      if (!user) {
-        return res.status(404).json({ error: "Invalid credentials" });
+      if (data.status !== 200) {
+        return res.status(500).json({ error: "Error from server" });
       }
 
-      if (email !== user.data.email) {
+      const user = (await data.json()) as IUser;
+
+      if (old_password !== user.password) {
         return res.status(404).json({ error: "Invalid credentials" });
       }
 
       const newUserData = {
-        ...user.data,
+        ...user,
         password: new_password,
       };
 
-      return res
-        .status(201)
-        .json({ message: "Password changed", data: newUserData });
+      const updateUser = await fetch(
+        `http://103.74.5.20:8002/api/users/${user._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newUserData),
+        }
+      );
+
+      if (updateUser.status !== 202) {
+        return res.status(500).json({ error: "Error from server" });
+      }
+
+      return res.status(201).json({ message: "Password changed" });
     } catch (err: any) {
       return res.status(500).json({ error: err.message });
     }
