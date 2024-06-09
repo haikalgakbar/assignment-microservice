@@ -37,26 +37,35 @@ const authController = {
   },
   register: async (req: Request, res: Response) => {
     try {
-      const { email, username, password } = req.body;
+      const { email, username, password, first_name, last_name, bio } =
+        req.body;
 
       if (!email || !username || !password) {
         return res.status(400).json({ error: "Missing required fields" });
       }
 
       const newUser = {
-        _id: 1,
         username,
-        password,
         email,
-        created_at: new Date(),
-        updated_at: new Date(),
-        first_name: "John",
-        last_name: "Doe",
-        bio: "I am user1",
-        payment_details: "123456789",
+        password,
+        first_name,
+        last_name,
+        bio,
       };
 
-      return res.status(201).json({ message: "User created", data: newUser });
+      const createNewUser = await fetch("http://103.74.5.20:8002/api/users", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newUser),
+      });
+
+      if (!(createNewUser.status === 201)) {
+        return res.status(500).json({ error: "Error from server" });
+      }
+
+      return res.status(201).json({ message: "User created" });
     } catch (err: any) {
       return res.status(500).json({ error: err.message });
     }
