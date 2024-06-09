@@ -25,9 +25,12 @@
 
 ```JSON
 {
-  "email": "haikal@mail.com",
-  "user_name": "haikalgakbar",
+  "username": "testfromauth",
+  "email": "test@auth.com",
   "password": "123",
+  "first_name": "test",
+  "last_name": "from auth",
+  "bio": "test"
 }
 ```
 </details>
@@ -37,26 +40,14 @@
 
 ```JSON
 {
-  "message": "User created",
-  "data": {
-    "_id": 1,
-    "username": "haikalgakbar",
-    "password": "123",
-    "email": "haikal@mail.com",
-    "created_at": "2024-06-06T05:19:48.271Z",
-    "updated_at": "2024-06-06T05:19:48.271Z",
-    "first_name": "John",
-    "last_name": "Doe",
-    "bio": "I am user1",
-    "payment_details": "123456789"
-  }
+  "message": "User created."
 }
 ```
 
 
 | **Type** | **Status Code** | **Message** |
 | ------------- | ------------- | ------------- |
-| `Success` | `201` | `Add new user success.` |
+| `Success` | `201` | `User created.` |
 | `Error in client` | `400` | `Invalid data.` |
 | `Error in server` | `500` | `Error from server.` |
 </details>
@@ -88,7 +79,14 @@
 ```JSON
 {
   "message": "Login success.",
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOjEsInVzZXJuYW1lIjoidXNlcjEiLCJlbWFpbCI6InVzZXIxQG1haWwuY29tIiwiZmlyc3RfbmFtZSI6IkpvaG4iLCJsYXN0X25hbWUiOiJEb2UiLCJpYXQiOjE3MTc2NTM0ODV9.ypgQmEVc3pkWVZgdvzu8SpOtUjAKuorbJOSCVM-Mt_w"
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NjY1NGUwMGM4YzQwNWExOWVlZDk3NmUiLCJ1c2VybmFtZSI6InRlc3Rmcm9tYXV0aCIsImVtYWlsIjoidGVzdEBhdXRoLmNvbSIsImZpcnN0X25hbWUiOiJ0ZXN0IiwibGFzdF9uYW1lIjoiZnJvbSBhdXRoIiwiaWF0IjoxNzE3OTI1MzU3fQ.BWgE3kf7lh6LVYHJdU4DknEP8Iz8uZJrKykUZcHXAW0",
+  "data": {
+    "_id": "66654e00c8c405a19eed976e",
+    "username": "testfromauth",
+    "email": "test@auth.com",
+    "first_name": "test",
+    "last_name": "from auth"
+  }
 }
 ```
 
@@ -115,7 +113,8 @@
 
 ```JSON
 {
-  "email": "user1@mail.com",
+  "email": "test@auth.com",
+  "old_password": "123",
   "new_password": "456"
 }
 ```
@@ -126,19 +125,7 @@
 
 ```JSON
 {
-  "message": "Password changed",
-  "data": {
-    "_id": 1,
-    "username": "user1",
-    "password": "456",
-    "email": "user1@mail.com",
-    "created_at": "2024-06-06T05:41:07.948Z",
-    "updated_at": "2024-06-06T05:41:07.948Z",
-    "first_name": "John",
-    "last_name": "Doe",
-    "bio": "I am user1",
-    "payment_details": "123456789"
-  }
+  "message": "Password changed"
 }
 ```
 

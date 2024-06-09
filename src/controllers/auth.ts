@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
-import { IFecthUser, user } from "../db/user";
 import { IUser } from "../interfaces/user";
 
 const authController = {
@@ -24,14 +23,13 @@ const authController = {
       });
 
       if (getUser.status !== 200) {
-        return res.status(500).json({ error: "Error from server" });
+        return res.status(500).json({ error: "Error from server." });
       }
 
       const user = (await getUser.json()) as IUser;
-      console.log(user);
 
       if (email !== user.email || password !== user.password) {
-        return res.status(404).json({ error: "Invalid credentials" });
+        return res.status(404).json({ error: "Invalid credentials." });
       }
 
       const payload = {
@@ -48,7 +46,7 @@ const authController = {
         .status(201)
         .json({ message: "Login success.", token: token, data: payload });
     } catch (err: any) {
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: "Error from server." });
     }
   },
   register: async (req: Request, res: Response) => {
@@ -64,7 +62,7 @@ const authController = {
         };
 
       if (!email || !username || !password) {
-        return res.status(400).json({ error: "Missing required fields" });
+        return res.status(400).json({ error: "Missing required fields." });
       }
 
       const newUser = {
@@ -85,12 +83,12 @@ const authController = {
       });
 
       if (!(createNewUser.status === 201)) {
-        return res.status(500).json({ error: "Error from server" });
+        return res.status(500).json({ error: "Error from server." });
       }
 
-      return res.status(201).json({ message: "User created" });
+      return res.status(201).json({ message: "User created." });
     } catch (err: any) {
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: "Error from server." });
     }
   },
   reset: async (req: Request, res: Response) => {
@@ -110,13 +108,13 @@ const authController = {
       });
 
       if (data.status !== 200) {
-        return res.status(500).json({ error: "Error from server" });
+        return res.status(500).json({ error: "Error from server." });
       }
 
       const user = (await data.json()) as IUser;
 
       if (old_password !== user.password) {
-        return res.status(404).json({ error: "Invalid credentials" });
+        return res.status(404).json({ error: "Invalid credentials." });
       }
 
       const newUserData = {
@@ -136,22 +134,14 @@ const authController = {
       );
 
       if (updateUser.status !== 202) {
-        return res.status(500).json({ error: "Error from server" });
+        return res.status(500).json({ error: "Error from server." });
       }
 
-      return res.status(201).json({ message: "Password changed" });
+      return res.status(201).json({ message: "Password changed." });
     } catch (err: any) {
-      return res.status(500).json({ error: err.message });
+      return res.status(500).json({ error: "Error from server." });
     }
   },
 };
-
-function fakeFetchRequest(): Promise<IFecthUser> {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve({ data: user });
-    }, 1000);
-  });
-}
 
 export default authController;
