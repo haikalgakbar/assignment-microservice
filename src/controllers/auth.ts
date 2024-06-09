@@ -61,7 +61,14 @@ const authController = {
           bio: string;
         };
 
-      if (!email || !username || !password) {
+      if (
+        !email ||
+        !username ||
+        !password ||
+        !first_name ||
+        !last_name ||
+        !bio
+      ) {
         return res.status(400).json({ error: "Missing required fields." });
       }
 
@@ -82,7 +89,7 @@ const authController = {
         body: JSON.stringify(newUser),
       });
 
-      if (!(createNewUser.status === 201)) {
+      if (createNewUser.status !== 201) {
         return res.status(500).json({ error: "Error from server." });
       }
 
@@ -99,6 +106,10 @@ const authController = {
         new_password: string;
       };
 
+      if (!email || !old_password || !new_password) {
+        return res.status(400).json({ error: "Missing required fields." });
+      }
+
       const data = await fetch("http://103.74.5.20:8002/api/userEmail", {
         method: "POST",
         headers: {
@@ -112,6 +123,7 @@ const authController = {
       }
 
       const user = (await data.json()) as IUser;
+
 
       if (old_password !== user.password) {
         return res.status(404).json({ error: "Invalid credentials." });

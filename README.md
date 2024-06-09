@@ -129,7 +129,7 @@
 
 ```JSON
 {
-  "message": "Password changed"
+  "message": "Password changed."
 }
 ```
 
