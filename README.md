@@ -15,9 +15,12 @@
 
 | **Name** | **Value** | |
 | ------------- | ------------- | ------------- |
-| email | `String` | `required` |
 | username | `String` | `required` |
+| email | `String` | `required` |
 | password | `String` | `required` |
+| first_name | `String` | `required` |
+| last_name | `String` | `required` |
+| bio | `String` | `required` |
 </details>
 
 <details open>
@@ -105,6 +108,7 @@
 | **Name** | **Value** | |
 | ------------- | ------------- | ------------- |
 | email | `String` | `required` |
+| old_password | `String` | `required` |
 | new_password | `String` | `required` |
 </details>
 
