@@ -124,7 +124,6 @@ const authController = {
 
       const user = (await data.json()) as IUser;
 
-
       if (old_password !== user.password) {
         return res.status(404).json({ error: "Invalid credentials." });
       }

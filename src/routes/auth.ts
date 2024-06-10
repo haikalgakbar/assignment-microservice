@@ -3,8 +3,8 @@ import authController from "../controllers/auth";
 
 const authRoute = express();
 
-authRoute.post("/auth/login", authController.login);
-authRoute.post("/auth/register", authController.register);
-authRoute.post("/auth/reset", authController.reset);
+authRoute.post("/login", authController.login);
+authRoute.post("/register", authController.register);
+authRoute.patch("/reset", authController.reset);
 
 export default authRoute;
