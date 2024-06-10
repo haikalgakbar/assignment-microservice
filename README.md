@@ -5,9 +5,9 @@
 
 | **Name** | **Method** | **Endpoint** |
 | ------------- | ------------- | ------------- |
-| [Register](#register) | `POST` | `{{BASE_URL}}/auth/register` |
-| [Login](#login) | `POST` | `{{BASE_URL}}/auth/login` |
-| [Reset password](#logout) | `POST` | `{{BASE_URL}}/auth/reset` |
+| [Register](#register) | `POST` | `{{BASE_URL}}/register` |
+| [Login](#login) | `POST` | `{{BASE_URL}}/login` |
+| [Reset password](#logout) | `PATCH` | `{{BASE_URL}}/reset` |
 
 ## Register
 <details open>
