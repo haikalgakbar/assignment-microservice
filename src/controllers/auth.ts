@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import { IUser } from "../interfaces/user";
+import bycrypt from "bcrypt";
 
 const authController = {
   login: async (req: Request, res: Response) => {
@@ -28,7 +29,10 @@ const authController = {
 
       const user = (await getUser.json()) as IUser;
 
-      if (email !== user.email || password !== user.password) {
+      if (
+        email !== user.email ||
+        !bycrypt.compareSync(password, user.password)
+      ) {
         return res.status(404).json({ error: "Invalid credentials." });
       }
 
@@ -124,7 +128,7 @@ const authController = {
 
       const user = (await data.json()) as IUser;
 
-      if (old_password !== user.password) {
+      if (!bycrypt.compareSync(old_password, user.password)) {
         return res.status(404).json({ error: "Invalid credentials." });
       }
 
